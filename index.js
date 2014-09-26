@@ -1,21 +1,21 @@
 var Device = require('./lib/device')
-  , util = require('util')
-  , stream = require('stream')
-  , configHandlers = require('./lib/config-handlers');
+    , util = require('util')
+    , stream = require('stream')
+    , configHandlers = require('./lib/config-handlers');
 
 // Give our driver a stream interface
-util.inherits(myDriver,stream);
+util.inherits(yeelightDriver, stream);
 
 // Our greeting to the user.
-var HELLO_WORLD_ANNOUNCEMENT = {
-  "contents": [
-    { "type": "heading",      "text": "Hello World Driver Loaded" },
-    { "type": "paragraph",    "text": "The hello world driver has been loaded. You should not see this message again." }
-  ]
+var SETUP_ANNOUNCEMENT = {
+    "contents": [
+        { "type": "heading", "text": "ninja-yeelight Driver Loaded" },
+        { "type": "paragraph", "text": "The ninja-yeelight driver for Yeelight Sunflower bulbs has been loaded. To setup, click on 'Drivers' then the 'Configure' button next to Ninja Yeelight." }
+    ]
 };
 
 /**
- * Called when our client starts up
+ * Called when Ninja client starts up (not the driver, the client)
  * @constructor
  *
  * @param  {Object} opts Saved/default driver configuration
@@ -28,25 +28,29 @@ var HELLO_WORLD_ANNOUNCEMENT = {
  * @fires register - Emit this when you wish to register a device (see Device)
  * @fires config - Emit this when you wish to send config data back to the Ninja Platform
  */
-function myDriver(opts,app) {
+function yeelightDriver(opts, app) {
 
-  var self = this;
+    var self = this;
 
-  app.on('client::up',function(){
+    // ** save opts into this so it can be accessed by other functions (works, but is there a better way?)
+    this.opts = opts;
 
-    // The client is now connected to the Ninja Platform
+    app.on('client::up', function () {
 
-    // Check if we have sent an announcement before.
-    // If not, send one and save the fact that we have.
-    if (!opts.hasSentAnnouncement) {
-      self.emit('announcement',HELLO_WORLD_ANNOUNCEMENT);
-      opts.hasSentAnnouncement = true;
-      self.save();
-    }
+        // The client is now connected to the Ninja Platform
 
-    // Register a device
-    self.emit('register', new Device());
-  });
+        // Check if we have sent a setup announcement before.
+        // If not, send one and save the fact that we have.
+        if (!opts.hasSentAnnouncement) {
+            self.emit('announcement', SETUP_ANNOUNCEMENT);
+            opts.hasSentAnnouncement = true;
+//            opts.test = 'testing saving an opts member';
+            self.save();
+        }
+
+        // Register a device
+        self.emit('register', new Device());
+    });
 };
 
 /**
@@ -59,23 +63,23 @@ function myDriver(opts,app) {
  * @param  {Object}   rpc.params Any input data the user provided
  * @param  {Function} cb      Used to match up requests.
  */
-myDriver.prototype.config = function(rpc,cb) {
+yeelightDriver.prototype.config = function (rpc, cb) {
 
-  var self = this;
-  // If rpc is null, we should send the user a menu of what he/she
-  // can do.
-  // Otherwise, we will try action the rpc method
-  if (!rpc) {
-    return configHandlers.menu.call(this,cb);
-  }
-  else if (typeof configHandlers[rpc.method] === "function") {
-    return configHandlers[rpc.method].call(this,rpc.params,cb);
-  }
-  else {
-    return cb(true);
-  }
+    var self = this;
+    // If rpc is null, we should send the user a menu of what he/she
+    // can do.
+    // Otherwise, we will try action the rpc method
+    if (!rpc) {
+        return configHandlers.menu.call(this, cb);
+    }
+    else if (typeof configHandlers[rpc.method] === "function") {
+        return configHandlers[rpc.method].call(this, rpc.params, cb);
+    }
+    else {
+        return cb(true);
+    }
 };
 
 
 // Export it
-module.exports = myDriver;
+module.exports = yeelightDriver;
