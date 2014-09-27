@@ -1,0 +1,27 @@
+{
+  "name": "ninja-yeelight",
+  "version": "0.0.1",
+  "description": "Ninja Blocks driver for Yeelight Sunflower light bulbs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lindsaymarkward/ninja-yeelight.git"
+  },
+  "keywords": [
+    "Yeelight",
+    "ninja",
+    "ninja",
+    "blocks",
+    "ninja",
+    "sphere"
+  ],
+  "author": "Lindsay Ward",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lindsaymarkward/ninja-yeelight/issues"
+  },
+  "homepage": "https://github.com/lindsaymarkward/ninja-yeelight"
+}

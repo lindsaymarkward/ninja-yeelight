@@ -1,7 +1,8 @@
 var Device = require('./lib/device')
     , util = require('util')
     , stream = require('stream')
-    , configHandlers = require('./lib/config-handlers');
+    , configHandlers = require('./lib/config-handlers')
+    , net = require('net');
 
 // Give our driver a stream interface
 util.inherits(yeelightDriver, stream);
@@ -44,7 +45,6 @@ function yeelightDriver(opts, app) {
         if (!opts.hasSentAnnouncement) {
             self.emit('announcement', SETUP_ANNOUNCEMENT);
             opts.hasSentAnnouncement = true;
-//            opts.test = 'testing saving an opts member';
             self.save();
         }
 
@@ -66,8 +66,7 @@ function yeelightDriver(opts, app) {
 yeelightDriver.prototype.config = function (rpc, cb) {
 
     var self = this;
-    // If rpc is null, we should send the user a menu of what he/she
-    // can do.
+    // If rpc is null, we should send the user a menu of what he/she can do.
     // Otherwise, we will try action the rpc method
     if (!rpc) {
         return configHandlers.menu.call(this, cb);
