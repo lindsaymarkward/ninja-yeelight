@@ -1,8 +1,7 @@
 var Device = require('./lib/device')
     , util = require('util')
     , stream = require('stream')
-    , configHandlers = require('./lib/config-handlers')
-    , net = require('net');
+    , configHandlers = require('./lib/config-handlers');
 
 // Give our driver a stream interface
 util.inherits(yeelightDriver, stream);
@@ -51,7 +50,7 @@ function yeelightDriver(opts, app) {
         // Register a device
         self.emit('register', new Device());
     });
-};
+}
 
 /**
  * Called when a user prompts a configuration.
@@ -65,7 +64,7 @@ function yeelightDriver(opts, app) {
  */
 yeelightDriver.prototype.config = function (rpc, cb) {
 
-    var self = this;
+//    var self = this;
     // If rpc is null, we should send the user a menu of what he/she can do.
     // Otherwise, we will try action the rpc method
     if (!rpc) {
@@ -80,5 +79,5 @@ yeelightDriver.prototype.config = function (rpc, cb) {
 };
 
 
-// Export it
+// Export the driver
 module.exports = yeelightDriver;
