@@ -1,7 +1,7 @@
 ninja-yeelight
 ==============
 
-Ninja Sphere driver for Yeelight Sunflower smart lights bulbs. (Work in progress.)
+Ninja Blocks driver for Yeelight Sunflower smart lights bulbs. (Work in progress.)
 
 
 Yeelight Sunflower product: http://www.yeelight.com/en_US/product/yeelight-sunflower
@@ -17,4 +17,4 @@ You can then name the lights and save these names.
 
 TODO
 ----
-Make some kind of light control.
+Everything else! Make some kind of light control.
